@@ -10,30 +10,30 @@
 #include "muse.h"
 #endif
 #include "eeprom.h"
-#include "keymap_german.h"
-#include "keymap_nordic.h"
-#include "keymap_french.h"
-#include "keymap_spanish.h"
-#include "keymap_hungarian.h"
-#include "keymap_swedish.h"
+// #include "keymap_german.h"
+// #include "keymap_nordic.h"
+// #include "keymap_french.h"
+// #include "keymap_spanish.h"
+// #include "keymap_hungarian.h"
+// #include "keymap_swedish.h"
 #include "keymap_br_abnt2.h"
-#include "keymap_canadian_multilingual.h"
-#include "keymap_german_ch.h"
-#include "keymap_jp.h"
+// #include "keymap_canadian_multilingual.h"
+// #include "keymap_german_ch.h"
+// #include "keymap_jp.h"
 
-#define KC_MAC_UNDO LGUI(KC_Z)
-#define KC_MAC_CUT LGUI(KC_X)
-#define KC_MAC_COPY LGUI(KC_C)
-#define KC_MAC_PASTE LGUI(KC_V)
-#define KC_PC_UNDO LCTL(KC_Z)
-#define KC_PC_CUT LCTL(KC_X)
-#define KC_PC_COPY LCTL(KC_C)
-#define KC_PC_PASTE LCTL(KC_V)
-#define ES_LESS_MAC KC_GRAVE
-#define ES_GRTR_MAC LSFT(KC_GRAVE)
-#define ES_BSLS_MAC ALGR(KC_6)
-#define NO_PIPE_ALT KC_GRAVE
-#define NO_BSLS_ALT KC_EQUAL
+// #define KC_MAC_UNDO LGUI(KC_Z)
+// #define KC_MAC_CUT LGUI(KC_X)
+// #define KC_MAC_COPY LGUI(KC_C)
+// #define KC_MAC_PASTE LGUI(KC_V)
+// #define KC_PC_UNDO LCTL(KC_Z)
+// #define KC_PC_CUT LCTL(KC_X)
+// #define KC_PC_COPY LCTL(KC_C)
+// #define KC_PC_PASTE LCTL(KC_V)
+// #define ES_LESS_MAC KC_GRAVE
+// #define ES_GRTR_MAC LSFT(KC_GRAVE)
+// #define ES_BSLS_MAC ALGR(KC_6)
+// #define NO_PIPE_ALT KC_GRAVE
+// #define NO_BSLS_ALT KC_EQUAL
 #define KC_TRANS KC_TRANSPARENT
 
 enum planck_keycodes {
@@ -49,9 +49,49 @@ enum planck_layers {
   _ADJUST,
 };
 
+//Tap Dance Declarations
+enum {
+  TD_SHFT_CAPS = 0,
+  TD_COMMA_ACT,
+  TD_QUOTE_TLD,
+  TD_COLON_CDL,
+};
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+
+// TAP DANCE - caps lock
+// caps lock on 3 presses
+void dance_caps_lock_finished (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count < 3) {
+    register_code(KC_LSFT);
+  } 
+  if (state->count == 3) {
+    register_code(KC_CAPS);
+  } 
+}
+void dance_caps_lock_reset (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count < 3) {
+    unregister_code(KC_LSFT);
+  } 
+  if (state->count == 3) {
+    unregister_code(KC_CAPS);
+  } 
+}
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  // // once for -  twice for ´`
+  [TD_COMMA_ACT]  = ACTION_TAP_DANCE_DOUBLE(KC_COMMA, BR_ACUT),
+  // once for '  twice for ~^
+  [TD_QUOTE_TLD]  = ACTION_TAP_DANCE_DOUBLE(BR_QUOT, BR_TILD),
+  // once for :  twice for çÇ
+  [TD_COLON_CDL]  = ACTION_TAP_DANCE_DOUBLE(BR_SCLN, BR_CCDL),
+  // Tap once for Shift, twice for Caps Lock
+  [TD_SHFT_CAPS]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_caps_lock_finished, dance_caps_lock_reset),
+};
+
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -59,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * | Esc  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  | ; ç  | ' ~  |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |  Up  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -67,28 +107,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
   [_BASE] = LAYOUT_planck_grid(
-    KC_ESCAPE,      KC_Q,      KC_W,      KC_E,     KC_R,   KC_T,      KC_Y,   KC_U,   KC_I,      KC_O,     KC_P,       KC_BSPACE,
-    LSFT_T(KC_TAB), KC_A,      KC_S,      KC_D,     KC_F,   KC_G,      KC_H,   KC_J,   KC_K,      KC_L,     KC_SCOLON,  KC_QUOTE,
-    KC_LSHIFT,      KC_Z,      KC_X,      KC_C,     KC_V,   KC_B,      KC_N,   KC_M,   KC_COMMA,  KC_DOT,   KC_UP,      KC_ENTER,
-    KC_LCTRL,       KC_HYPR,   KC_LALT,   KC_LGUI,  LOWER,  KC_SPACE,  KC_NO,  RAISE,  KC_SLASH,  KC_LEFT,  KC_DOWN,    KC_RIGHT
+    KC_ESCAPE,        KC_Q,    KC_W,    KC_E,    KC_R,  KC_T,     KC_Y,  KC_U,  KC_I,             KC_O,    KC_P,             KC_BSPACE,
+    LSFT_T(KC_TAB),   KC_A,    KC_S,    KC_D,    KC_F,  KC_G,     KC_H,  KC_J,  KC_K,             KC_L,    TD(TD_COLON_CDL), TD(TD_QUOTE_TLD),
+    TD(TD_SHFT_CAPS), KC_Z,    KC_X,    KC_C,    KC_V,  KC_B,     KC_N,  KC_M,  TD(TD_COMMA_ACT), KC_DOT,  KC_UP,            KC_ENTER,
+    KC_LCTRL,         KC_HYPR, KC_LALT, KC_LGUI, LOWER, KC_SPACE, KC_NO, RAISE, BR_SLSH,          KC_LEFT, KC_DOWN,          KC_RIGHT
   ),
 
 /* Lower
  * ,-----------------------------------------------------------------------------------.
  * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |   {  |   }  |  |   |
+ * | Del  |      |  ª   |  º   |  °   |      |      |   _  |   +  |   {  |   }  |  |   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |      |      | Home | End  |Enter |
+ * |      |      |  €   |  €   |      |      |      |      |      | Home | End  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
   [_LOWER] = LAYOUT_planck_grid(
-    KC_TILD,    KC_EXLM,    KC_AT,     KC_HASH,    KC_DLR,    KC_PERC,   KC_CIRC,  KC_AMPR,        KC_ASTR,              KC_LPRN,            KC_RPRN,         KC_TRANS,
-    KC_DELETE,  KC_F1,      KC_F2,     KC_F3,      KC_F4,     KC_F5,     KC_F6,    KC_UNDS,        KC_PLUS,              KC_LCBR,            KC_RCBR,         KC_PIPE,
-    KC_TRANS,   KC_F7,      KC_F8,     KC_F9,      KC_F10,    KC_F11,    KC_F12,   KC_NONUS_HASH,  KC_NONUS_BSLASH,      KC_HOME,            KC_END,          KC_TRANS,
-    KC_TRANS,   KC_TRANS,   KC_TRANS,  KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_NO,    KC_TRANS,       KC_MEDIA_NEXT_TRACK,  KC_AUDIO_VOL_DOWN,  KC_AUDIO_VOL_UP, KC_MEDIA_PLAY_PAUSE
+    KC_TILD,   KC_EXLM,  KC_AT,         KC_HASH,       KC_DLR,        KC_PERC,  KC_CIRC,  KC_AMPR,       KC_ASTR,             KC_LPRN,           KC_RPRN,         KC_TRANS,
+    KC_DELETE, KC_TRANS, RALT(BR_LBRC), RALT(BR_RBRC), RALT(BR_SLSH), KC_TRANS, KC_TRANS, KC_UNDS,       KC_PLUS,             BR_LCBR,           BR_RCBR,         BR_PIPE,
+    KC_TRANS,  KC_TRANS, RALT(KC_E),    RALT(KC_4),    KC_TRANS,      KC_TRANS, KC_TRANS, KC_NONUS_HASH, KC_NONUS_BSLASH,     KC_HOME,           KC_END,          KC_TRANS,
+    KC_TRANS,  KC_TRANS, KC_TRANS,      KC_TRANS,      KC_TRANS,      KC_TRANS, KC_NO,    KC_TRANS,      KC_MEDIA_NEXT_TRACK, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_MEDIA_PLAY_PAUSE
   ),
 
 /* Raise
@@ -97,16 +137,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |   =  |   [  |   ]  |  \   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |      |      |      |      |Enter |
+ * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |      |      | PgUp | PgDn |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
   [_RAISE] = LAYOUT_planck_grid(
-    KC_GRAVE,   KC_1,      KC_2,      KC_3,      KC_4,      KC_5,      KC_6,    KC_7,           KC_8,                KC_9,               KC_0,              KC_TRANS,
-    KC_DELETE,  KC_F1,     KC_F2,     KC_F3,     KC_F4,     KC_F5,     KC_F6,   KC_MINUS,       KC_EQUAL,            KC_LBRACKET,        KC_RBRACKET,       KC_BSLASH,
-    KC_TRANS,   KC_F7,     KC_F8,     KC_F9,     KC_F10,    KC_F11,    KC_F12,  KC_NONUS_HASH,  KC_NONUS_BSLASH,     KC_PGUP,            KC_PGDOWN,         KC_TRANS,
-    KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,   KC_TRANS,       KC_MEDIA_NEXT_TRACK, KC_AUDIO_VOL_DOWN,  KC_AUDIO_VOL_UP,   KC_MEDIA_PLAY_PAUSE),
+    KC_GRAVE,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,   KC_7,          KC_8,                KC_9,              KC_0,            KC_TRANS,
+    KC_DELETE, KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_MINUS,      KC_EQUAL,            BR_LBRC,           BR_RBRC,         BR_BSLS,
+    KC_TRANS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12, KC_NONUS_HASH, KC_NONUS_BSLASH,     KC_PGUP,           KC_PGDOWN,       KC_TRANS,
+    KC_TRANS,  KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_NO,  KC_TRANS,      KC_MEDIA_NEXT_TRACK, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_MEDIA_PLAY_PAUSE
+  ),
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
@@ -135,29 +176,37 @@ void keyboard_post_init_user(void) {
   rgb_matrix_enable();
 }
 
+
+#define MY_WHT {0, 0, 255}
+#define MY_RED {12, 225, 241}
+#define MY_YLW {32, 255, 234}
+#define MY_BLU {146, 224, 255}
+#define MY_NOC {0, 0, 0}
+// #define MY_GRN {0, 255, 118}
+
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
-    [0] = { {32,255,234}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241},  {12,225,241},  {12,225,241},  {12,225,241},  {32,255,234}, 
-            {32,255,234}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241},  {12,225,241},  {12,225,241},  {169,120,255}, {169,120,255}, 
-            {32,255,234}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241},  {169,120,255}, {169,120,255}, {0,0,255},     {32,255,234}, 
-            {32,255,234}, {32,255,234}, {32,255,234}, {32,255,234}, {0,0,255},    {0,0,255},    {0,0,255},    {169,120,255}, {0,0,255},     {0,0,255},     {0,0,255} 
+    [0] = { MY_YLW, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_YLW, 
+            MY_YLW, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_BLU, MY_BLU, 
+            MY_YLW, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_BLU, MY_BLU, MY_WHT, MY_YLW, 
+            MY_YLW, MY_YLW, MY_YLW, MY_YLW, MY_WHT,    MY_WHT,      MY_WHT, MY_BLU, MY_WHT, MY_WHT, MY_WHT 
           },
 
-    [1] = { {12,225,241}, {12,225,241},  {12,225,241},  {12,225,241},  {12,225,241},  {12,225,241},  {12,225,241},  {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {0,0,0}, 
-            {32,255,234}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, 
-            {0,0,0},      {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {0,0,0},      {0,0,0},      {32,255,234}, {32,255,234}, {0,0,0}, 
-            {0,0,0},      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0} 
+    [1] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
+            MY_YLW, MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
+            MY_NOC, MY_NOC, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_YLW, MY_YLW, MY_NOC, 
+            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
-    [2] = { {12,225,241}, {14,255,255},  {14,255,255},  {14,255,255},  {14,255,255},  {14,255,255},  {14,255,255},  {14,255,255}, {14,255,255}, {14,255,255}, {14,255,255}, {0,0,0}, 
-            {32,255,234}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, {12,225,241}, 
-            {0,0,0},      {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {0,0,255},    {0,0,255},    {32,255,234}, {32,255,234}, {0,0,0}, 
-            {0,0,0},      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0} 
+    [2] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
+            MY_YLW, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
+            MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_WHT, MY_WHT, MY_YLW, MY_YLW, MY_NOC, 
+            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
-    [3] = { {0,0,0},      {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, 
-            {32,255,234}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {146,224,255}, 
-            {0,0,0},      {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, 
-            {0,0,0},      {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} 
+    [3] = { MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
+            MY_YLW, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_BLU, 
+            MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
+            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
 };
