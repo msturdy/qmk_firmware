@@ -4,3 +4,6 @@ SRC += muse.c
 LINK_TIME_OPTIMIZATION_ENABLE = yes
 COMMAND_ENABLE = no
 MOUSEKEY_ENABLE = no
+
+# tap dancing keyboard
+TAP_DANCE_ENABLE = yes
