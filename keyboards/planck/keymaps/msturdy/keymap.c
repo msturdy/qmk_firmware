@@ -154,9 +154,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |  DEL |      |Aud on|AudOff|AudTog|      |      |RGBTog| brg+ | brg- |      |RESET |
+ * |  DEL |      |      |      |      |      |      |RGBTog| brg+ | brg- |      |RESET |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |Mus on|MusOff|MusTog|      |      | Anim | hue+ | hue- |      |      |
+ * |      |      |      |      |      |      |      | Anim | hue+ | hue- |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
@@ -205,8 +205,8 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
           },
 
     [3] = { MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
-            MY_YLW, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
-            MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
+            MY_YLW, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
+            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
             MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
