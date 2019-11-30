@@ -1,8 +1,10 @@
 #pragma once
 
-#ifdef AUDIO_ENABLE
-#define STARTUP_SONG SONG(PLANCK_SOUND)
-#endif
+#define NO_MUSIC_MODE
+
+// #ifdef AUDIO_ENABLE
+// #define STARTUP_SONG SONG(PLANCK_SOUND)
+// #endif
 
 #define MIDI_BASIC
 
@@ -14,7 +16,7 @@
 */
 #define ORYX_CONFIGURATOR
 
-
+// mouse settings.
 // override the defaults
 #undef MOUSEKEY_DELAY
 #undef MOUSEKEY_INTERVAL
@@ -27,6 +29,7 @@
 #define MOUSEKEY_TIME_TO_MAX    30
 #define MOUSEKEY_WHEEL_DELAY    0
 
+// brazilian key codes
 #define BR_CCDL KC_SCLN      //  Ç   same scancode as ;: on US layout
 #define BR_SCLN KC_SLSH      //  ;:  same scancode as /? on US layout
 #define BR_QUOT KC_GRV       //  '"  same scancode as `~ on US layout

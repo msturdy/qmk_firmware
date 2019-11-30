@@ -6,6 +6,7 @@
 // 
 
 #include QMK_KEYBOARD_H
+
 #ifdef AUDIO_ENABLE
 #include "muse.h"
 #endif
@@ -139,14 +140,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |      |      | PgUp | PgDn |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |             |      |      | Vol- | Vol+ |      |
  * `-----------------------------------------------------------------------------------'
  */
   [_RAISE] = LAYOUT_planck_grid(
-    KC_GRAVE,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,   KC_7,          KC_8,                KC_9,              KC_0,            KC_TRANS,
-    KC_DELETE, KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_MINUS,      KC_EQUAL,            BR_LBRC,           BR_RBRC,         BR_BSLS,
-    KC_TRANS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12, KC_NONUS_HASH, KC_NONUS_BSLASH,     KC_PGUP,           KC_PGDOWN,       KC_TRANS,
-    KC_TRANS,  KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_NO,  KC_TRANS,      KC_MEDIA_NEXT_TRACK, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_MEDIA_PLAY_PAUSE
+    KC_GRAVE,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,   KC_7,          KC_8,            KC_9,              KC_0,            KC_TRANS,
+    KC_DELETE, KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_MINUS,      KC_EQUAL,        BR_LBRC,           BR_RBRC,         BR_BSLS,
+    KC_TRANS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12, KC_NONUS_HASH, KC_NONUS_BSLASH, KC_PGUP,           KC_PGDOWN,       KC_TRANS,
+    KC_TRANS,  KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_NO,  KC_TRANS,      KC_TRANS,        KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_TRANS
   ),
 
 /* Adjust (Lower + Raise)
@@ -200,12 +201,12 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [2] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
             MY_YLW, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
             MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_BLU, MY_WHT, MY_WHT, MY_YLW, MY_YLW, MY_NOC, 
-            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
+            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_GRN, MY_GRN, MY_NOC 
           },
 
     [3] = { MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
-            MY_YLW, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_GRN, 
-            MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
+            MY_YLW, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
+            MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
             MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
