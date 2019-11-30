@@ -125,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
   [_LOWER] = LAYOUT_planck_grid(
-    KC_TILD,   KC_EXLM,    KC_AT,       KC_HASH,       KC_DLR,        KC_PERC,       KC_CIRC,  KC_AMPR,  KC_ASTR,   KC_LPRN,     KC_RPRN,  KC_TRANS,
+    KC_TILD,   KC_EXLM ,    KC_AT,       KC_HASH,       KC_DLR,        KC_PERC,       KC_CIRC,  KC_AMPR,  KC_ASTR,   KC_LPRN,     KC_RPRN,  KC_TRANS,
     KC_DELETE, KC_TRANS,   KC_TRANS,    RALT(BR_LBRC), RALT(BR_RBRC), RALT(BR_SLSH), KC_TRANS, KC_UNDS,  KC_PLUS,   BR_LCBR,     BR_RCBR,  BR_PIPE,
     KC_TRANS,  KC_HOME,    KC_END,      RALT(KC_E),    RALT(KC_4),    KC_TRANS,      KC_TRANS, KC_TRANS, KC_TRANS,  KC_MS_WH_UP, KC_MS_U,  KC_MS_WH_DOWN,
     KC_TRANS,  KC_MS_BTN1, KC_MS_BTN3,  KC_MS_BTN2,    KC_TRANS,      KC_TRANS,      KC_NO,    KC_TRANS, KC_TRANS,  KC_MS_L,     KC_MS_D,  KC_MS_R
@@ -182,7 +182,7 @@ void keyboard_post_init_user(void) {
 #define MY_YLW {32, 255, 234}
 #define MY_BLU {146, 224, 255}
 #define MY_NOC {0, 0, 0}
-// #define MY_GRN {0, 255, 118}
+#define MY_GRN {85, 203, 158}
 
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [0] = { MY_YLW, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_YLW, 
@@ -193,8 +193,8 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
 
     [1] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
             MY_YLW, MY_NOC, MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_NOC, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
-            MY_NOC, MY_YLW, MY_YLW, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, 
-            MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT 
+            MY_NOC, MY_YLW, MY_YLW, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_GRN, MY_WHT, 
+            MY_NOC, MY_GRN, MY_GRN, MY_GRN, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_GRN, MY_GRN, MY_GRN 
           },
 
     [2] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
@@ -204,7 +204,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
           },
 
     [3] = { MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
-            MY_YLW, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_BLU, 
+            MY_YLW, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_GRN, 
             MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
             MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
