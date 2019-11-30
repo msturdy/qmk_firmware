@@ -110,25 +110,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESCAPE,        KC_Q,    KC_W,    KC_E,    KC_R,  KC_T,     KC_Y,  KC_U,  KC_I,             KC_O,    KC_P,             KC_BSPACE,
     LSFT_T(KC_TAB),   KC_A,    KC_S,    KC_D,    KC_F,  KC_G,     KC_H,  KC_J,  KC_K,             KC_L,    TD(TD_COLON_CDL), TD(TD_QUOTE_TLD),
     TD(TD_SHFT_CAPS), KC_Z,    KC_X,    KC_C,    KC_V,  KC_B,     KC_N,  KC_M,  TD(TD_COMMA_ACT), KC_DOT,  KC_UP,            KC_ENTER,
-    KC_LCTRL,         KC_HYPR, KC_LALT, KC_LGUI, LOWER, KC_SPACE, KC_NO, RAISE, BR_SLSH,          KC_LEFT, KC_DOWN,          KC_RIGHT
+    KC_LCTRL,         KC_HYPR, KC_LGUI, KC_LALT, LOWER, KC_SPACE, KC_NO, RAISE, BR_SLSH,          KC_LEFT, KC_DOWN,          KC_RIGHT
   ),
 
 /* Lower
  * ,-----------------------------------------------------------------------------------.
  * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |      |  ª   |  º   |  °   |      |      |   _  |   +  |   {  |   }  |  |   |
+ * | Del  |      |      |  ª   |   º  |  °   |      |   _  |   +  |   {  |   }  |  |   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |  €   |  €   |      |      |      |      |      | Home | End  |Enter |
+ * |      | Home | End  |  €   |  £   |      |      |      |      |MsWhUp| MsUp |MsWhDn|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      | Ms 1 | Ms 3 | Ms 2 |      |             |      |      | MsLft| MsDn | MsRgt|
  * `-----------------------------------------------------------------------------------'
  */
   [_LOWER] = LAYOUT_planck_grid(
-    KC_TILD,   KC_EXLM,  KC_AT,         KC_HASH,       KC_DLR,        KC_PERC,  KC_CIRC,  KC_AMPR,       KC_ASTR,             KC_LPRN,           KC_RPRN,         KC_TRANS,
-    KC_DELETE, KC_TRANS, RALT(BR_LBRC), RALT(BR_RBRC), RALT(BR_SLSH), KC_TRANS, KC_TRANS, KC_UNDS,       KC_PLUS,             BR_LCBR,           BR_RCBR,         BR_PIPE,
-    KC_TRANS,  KC_TRANS, RALT(KC_E),    RALT(KC_4),    KC_TRANS,      KC_TRANS, KC_TRANS, KC_NONUS_HASH, KC_NONUS_BSLASH,     KC_HOME,           KC_END,          KC_TRANS,
-    KC_TRANS,  KC_TRANS, KC_TRANS,      KC_TRANS,      KC_TRANS,      KC_TRANS, KC_NO,    KC_TRANS,      KC_MEDIA_NEXT_TRACK, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_MEDIA_PLAY_PAUSE
+    KC_TILD,   KC_EXLM,    KC_AT,       KC_HASH,       KC_DLR,        KC_PERC,       KC_CIRC,  KC_AMPR,  KC_ASTR,   KC_LPRN,     KC_RPRN,  KC_TRANS,
+    KC_DELETE, KC_TRANS,   KC_TRANS,    RALT(BR_LBRC), RALT(BR_RBRC), RALT(BR_SLSH), KC_TRANS, KC_UNDS,  KC_PLUS,   BR_LCBR,     BR_RCBR,  BR_PIPE,
+    KC_TRANS,  KC_HOME,    KC_END,      RALT(KC_E),    RALT(KC_4),    KC_TRANS,      KC_TRANS, KC_TRANS, KC_TRANS,  KC_MS_WH_UP, KC_MS_U,  KC_MS_WH_DOWN,
+    KC_TRANS,  KC_MS_BTN1, KC_MS_BTN3,  KC_MS_BTN2,    KC_TRANS,      KC_TRANS,      KC_NO,    KC_TRANS, KC_TRANS,  KC_MS_L,     KC_MS_D,  KC_MS_R
   ),
 
 /* Raise
@@ -192,9 +192,9 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
           },
 
     [1] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
-            MY_YLW, MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
-            MY_NOC, MY_NOC, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_YLW, MY_YLW, MY_NOC, 
-            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
+            MY_YLW, MY_NOC, MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_NOC, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
+            MY_NOC, MY_YLW, MY_YLW, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, 
+            MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT 
           },
 
     [2] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
