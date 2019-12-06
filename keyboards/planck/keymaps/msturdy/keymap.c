@@ -36,6 +36,10 @@
 // #define NO_PIPE_ALT KC_GRAVE
 // #define NO_BSLS_ALT KC_EQUAL
 #define KC_TRANS KC_TRANSPARENT
+#define MY_VOL_UP KC_AUDIO_VOL_UP
+#define MY_VOL_DN KC_AUDIO_VOL_DOWN
+#define MY_BGT_UP KC_BRIGHTNESS_UP
+#define MY_BGT_DN KC_BRIGHTNESS_DOWN
 
 enum planck_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
@@ -154,18 +158,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |  DEL |      |VolUp |      |      |      |      |RGBTog| brg+ | brg- |      |RESET |
+ * |  DEL |      |VolUp |      |brgtup|      |      |RGBTog| brg+ | brg- |      |RESET |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |VolDwn|      |      |      |      | Anim | hue+ | hue- |      |      |
+ * |      |      |VolDwn|      |brgtdn|      |      | Anim | hue+ | hue- |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
   [_ADJUST] = LAYOUT_planck_grid(
-    KC_TRANS,   KC_TRANS,  KC_TRANS,          KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,
-    KC_DELETE,  KC_TRANS,  KC_AUDIO_VOL_UP,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  RGB_TOG,   RGB_VAI,   RGB_VAD,   KC_TRANS,  RESET,
-    KC_TRANS,   KC_TRANS,  KC_AUDIO_VOL_DOWN, KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  RGB_MOD,   RGB_HUI,   RGB_HUD,   KC_TRANS,  KC_TRANS,
-    KC_TRANS,   KC_TRANS,  KC_TRANS,          KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,     KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS
+    KC_TRANS,   KC_TRANS,  KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,
+    KC_DELETE,  KC_TRANS,  MY_VOL_UP,  KC_TRANS,  MY_BGT_UP, KC_TRANS,  KC_TRANS,  RGB_TOG,   RGB_VAI,   RGB_VAD,   KC_TRANS,  RESET,
+    KC_TRANS,   KC_TRANS,  MY_VOL_DN,  KC_TRANS,  MY_BGT_DN, KC_TRANS,  KC_TRANS,  RGB_MOD,   RGB_HUI,   RGB_HUD,   KC_TRANS,  KC_TRANS,
+    KC_TRANS,   KC_TRANS,  KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,     KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS
   ),
 
 };
@@ -205,8 +209,8 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
           },
 
     [3] = { MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
-            MY_YLW, MY_NOC, MY_GRN, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
-            MY_NOC, MY_NOC, MY_GRN, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
+            MY_YLW, MY_NOC, MY_GRN, MY_NOC, MY_YLW, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
+            MY_NOC, MY_NOC, MY_GRN, MY_NOC, MY_YLW, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
             MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
