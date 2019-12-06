@@ -144,28 +144,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
   [_RAISE] = LAYOUT_planck_grid(
-    KC_GRAVE,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,   KC_7,          KC_8,            KC_9,              KC_0,            KC_TRANS,
-    KC_DELETE, KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_MINUS,      KC_EQUAL,        BR_LBRC,           BR_RBRC,         BR_BSLS,
-    KC_TRANS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12, KC_NONUS_HASH, KC_NONUS_BSLASH, KC_PGUP,           KC_PGDOWN,       KC_TRANS,
-    KC_TRANS,  KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_NO,  KC_TRANS,      KC_TRANS,        KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_TRANS
+    KC_GRAVE,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,   KC_7,          KC_8,            KC_9,       KC_0,       KC_TRANS,
+    KC_DELETE, KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_MINUS,      KC_EQUAL,        BR_LBRC,    BR_RBRC,    BR_BSLS,
+    KC_TRANS,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12, KC_NONUS_HASH, KC_NONUS_BSLASH, KC_PGUP,    KC_PGDOWN,  KC_TRANS,
+    KC_TRANS,  KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_TRANS, KC_NO,  KC_TRANS,      KC_TRANS,        KC_TRANS,   KC_TRANS,   KC_TRANS
   ),
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |  DEL |      |      |      |      |      |      |RGBTog| brg+ | brg- |      |RESET |
+ * |  DEL |      |VolUp |      |      |      |      |RGBTog| brg+ | brg- |      |RESET |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      | Anim | hue+ | hue- |      |      |
+ * |      |      |VolDwn|      |      |      |      | Anim | hue+ | hue- |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
   [_ADJUST] = LAYOUT_planck_grid(
-    KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,
-    KC_DELETE,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  RGB_TOG,   RGB_VAI,   RGB_VAD,   KC_TRANS,  RESET,
-    KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  RGB_MOD,   RGB_HUI,   RGB_HUD,   KC_TRANS,  KC_TRANS,
-    KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,     KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS
+    KC_TRANS,   KC_TRANS,  KC_TRANS,          KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,
+    KC_DELETE,  KC_TRANS,  KC_AUDIO_VOL_UP,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  RGB_TOG,   RGB_VAI,   RGB_VAD,   KC_TRANS,  RESET,
+    KC_TRANS,   KC_TRANS,  KC_AUDIO_VOL_DOWN, KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  RGB_MOD,   RGB_HUI,   RGB_HUD,   KC_TRANS,  KC_TRANS,
+    KC_TRANS,   KC_TRANS,  KC_TRANS,          KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,     KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS
   ),
 
 };
@@ -205,8 +205,8 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
           },
 
     [3] = { MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, 
-            MY_YLW, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
-            MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
+            MY_YLW, MY_NOC, MY_GRN, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_GRN, 
+            MY_NOC, MY_NOC, MY_GRN, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_WHT, MY_WHT, MY_NOC, MY_NOC, 
             MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_NOC 
           },
 
