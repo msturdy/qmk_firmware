@@ -7,9 +7,9 @@
 
 #include QMK_KEYBOARD_H
 
-#ifdef AUDIO_ENABLE
-#include "muse.h"
-#endif
+// #ifdef AUDIO_ENABLE
+// #include "muse.h"
+// #endif
 #include "eeprom.h"
 // #include "keymap_german.h"
 // #include "keymap_nordic.h"
@@ -40,6 +40,7 @@
 #define MY_VOL_DN KC_AUDIO_VOL_DOWN
 #define MY_BGT_UP KC_BRIGHTNESS_UP
 #define MY_BGT_DN KC_BRIGHTNESS_DOWN
+#define MY_KEY_QMU LSFT(RALT(BR_SLSH))
 
 enum planck_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
@@ -130,10 +131,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
   [_LOWER] = LAYOUT_planck_grid(
-    KC_TILD,   KC_EXLM ,    KC_AT,       KC_HASH,       KC_DLR,        KC_PERC,       KC_CIRC,  KC_AMPR,  KC_ASTR,   KC_LPRN,     KC_RPRN,  KC_TRANS,
-    KC_DELETE, KC_TRANS,   KC_TRANS,    RALT(BR_LBRC), RALT(BR_RBRC), RALT(BR_SLSH), KC_TRANS, KC_UNDS,  KC_PLUS,   BR_LCBR,     BR_RCBR,  BR_PIPE,
-    KC_TRANS,  KC_HOME,    KC_END,      RALT(KC_E),    RALT(KC_4),    KC_TRANS,      KC_TRANS, KC_TRANS, KC_TRANS,  KC_MS_WH_UP, KC_MS_U,  KC_MS_WH_DOWN,
-    KC_TRANS,  KC_MS_BTN1, KC_MS_BTN3,  KC_MS_BTN2,    KC_TRANS,      KC_TRANS,      KC_NO,    KC_TRANS, KC_TRANS,  KC_MS_L,     KC_MS_D,  KC_MS_R
+    KC_TILD,   KC_EXLM ,   KC_AT,       KC_HASH,       KC_DLR,        KC_PERC,       KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_LPRN,     KC_RPRN,  KC_TRANS,
+    KC_DELETE, KC_TRANS,   KC_TRANS,    RALT(BR_LBRC), RALT(BR_RBRC), RALT(BR_SLSH), KC_TRANS, KC_UNDS,  KC_PLUS,     BR_LCBR,     BR_RCBR,  BR_PIPE,
+    KC_TRANS,  KC_HOME,    KC_END,      RALT(KC_E),    RALT(KC_4),    KC_TRANS,      KC_TRANS, KC_TRANS, KC_TRANS,    KC_MS_WH_UP, KC_MS_U,  KC_MS_WH_DOWN,
+    KC_TRANS,  KC_MS_BTN1, KC_MS_BTN3,  KC_MS_BTN2,    KC_TRANS,      KC_TRANS,      KC_NO,    KC_TRANS, MY_KEY_QMU,  KC_MS_L,     KC_MS_D,  KC_MS_R
   ),
 
 /* Raise
@@ -199,7 +200,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [1] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
             MY_YLW, MY_NOC, MY_NOC, MY_BLU, MY_BLU, MY_BLU, MY_NOC, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, 
             MY_NOC, MY_YLW, MY_YLW, MY_BLU, MY_BLU, MY_NOC, MY_NOC, MY_NOC, MY_NOC, MY_WHT, MY_GRN, MY_WHT, 
-            MY_NOC, MY_GRN, MY_GRN, MY_GRN, MY_NOC,    MY_NOC,      MY_NOC, MY_NOC, MY_GRN, MY_GRN, MY_GRN 
+            MY_NOC, MY_GRN, MY_GRN, MY_GRN, MY_NOC,    MY_NOC,      MY_NOC, MY_RED, MY_GRN, MY_GRN, MY_GRN 
           },
 
     [2] = { MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_RED, MY_NOC, 
