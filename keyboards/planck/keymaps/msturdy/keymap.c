@@ -40,7 +40,7 @@
 #define MY_VOL_DN KC_AUDIO_VOL_DOWN
 #define MY_BGT_UP KC_BRIGHTNESS_UP
 #define MY_BGT_DN KC_BRIGHTNESS_DOWN
-#define MY_KEY_QMU LSFT(RALT(BR_SLSH))
+#define MY_KEY_QMU RALT(BR_SLSH)
 
 enum planck_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
