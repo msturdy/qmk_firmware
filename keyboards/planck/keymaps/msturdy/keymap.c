@@ -53,6 +53,7 @@ enum planck_layers {
   _LOWER,
   _RAISE,
   _ADJUST,
+  _NUMBERS,
 };
 
 //Tap Dance Declarations
@@ -61,10 +62,12 @@ enum {
   TD_COMMA_ACT,
   TD_QUOTE_TLD,
   TD_COLON_CDL,
+  TD_LAYER_ALT,
 };
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+#define NUMBERS MO(_NUMBERS)
 
 // TAP DANCE - caps lock
 // caps lock on 3 presses
@@ -88,13 +91,15 @@ void dance_caps_lock_reset (qk_tap_dance_state_t *state, void *user_data) {
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
   // // once for -  twice for ´`
-  [TD_COMMA_ACT]  = ACTION_TAP_DANCE_DOUBLE(KC_COMMA, BR_ACUT),
+  [TD_COMMA_ACT] = ACTION_TAP_DANCE_DOUBLE(KC_COMMA, BR_ACUT),
   // once for '  twice for ~^
-  [TD_QUOTE_TLD]  = ACTION_TAP_DANCE_DOUBLE(BR_QUOT, BR_TILD),
+  [TD_QUOTE_TLD] = ACTION_TAP_DANCE_DOUBLE(BR_QUOT, BR_TILD),
   // once for :  twice for çÇ
-  [TD_COLON_CDL]  = ACTION_TAP_DANCE_DOUBLE(BR_SCLN, BR_CCDL),
+  [TD_COLON_CDL] = ACTION_TAP_DANCE_DOUBLE(BR_SCLN, BR_CCDL),
+  // once to shift to LOWER, twice to shift to numbers.
+  [TD_LAYER_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_LALT, NUMBERS),
   // Tap once for Shift, twice for Caps Lock
-  [TD_SHFT_CAPS]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_caps_lock_finished, dance_caps_lock_reset),
+  [TD_SHFT_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_caps_lock_finished, dance_caps_lock_reset),
 };
 
 
@@ -113,10 +118,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
   [_BASE] = LAYOUT_planck_grid(
-    KC_ESCAPE,        KC_Q,    KC_W,    KC_E,    KC_R,  KC_T,     KC_Y,  KC_U,  KC_I,             KC_O,    KC_P,             KC_BSPACE,
-    LSFT_T(KC_TAB),   KC_A,    KC_S,    KC_D,    KC_F,  KC_G,     KC_H,  KC_J,  KC_K,             KC_L,    TD(TD_COLON_CDL), TD(TD_QUOTE_TLD),
-    TD(TD_SHFT_CAPS), KC_Z,    KC_X,    KC_C,    KC_V,  KC_B,     KC_N,  KC_M,  TD(TD_COMMA_ACT), KC_DOT,  KC_UP,            KC_ENTER,
-    KC_LCTRL,         KC_HYPR, KC_LGUI, KC_LALT, LOWER, KC_SPACE, KC_NO, RAISE, BR_SLSH,          KC_LEFT, KC_DOWN,          KC_RIGHT
+    KC_ESCAPE,           KC_Q,    KC_W,    KC_E,    KC_R,   KC_T,     KC_Y,  KC_U,  KC_I,             KC_O,    KC_P,             KC_BSPACE,
+    LT(NUMBERS, KC_TAB), KC_A,    KC_S,    KC_D,    KC_F,   KC_G,     KC_H,  KC_J,  KC_K,             KC_L,    TD(TD_COLON_CDL), TD(TD_QUOTE_TLD),
+    TD(TD_SHFT_CAPS),    KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,     KC_N,  KC_M,  TD(TD_COMMA_ACT), KC_DOT,  KC_UP,            KC_ENTER,
+    KC_LCTRL,            KC_HYPR, KC_LGUI, KC_LALT, LOWER,  KC_SPACE, KC_NO, RAISE, BR_SLSH,          KC_LEFT, KC_DOWN,          KC_RIGHT
   ),
 
 /* Lower
@@ -173,6 +178,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANS,   KC_TRANS,  KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,     KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS
   ),
 
+/* Numbers (doubletap Lower)
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |  7   |  8   |  9   | Bksp |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |  4   |  5   |  6   |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |  1   |  2   |  3   |Enter |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |Lower |             |      |  0   |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+  [_NUMBERS] = LAYOUT_planck_grid(
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_7,  KC_8,   KC_9,   KC_TRANS,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_4,  KC_5,   KC_6,   KC_NO,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_1,  KC_2,   KC_3,   KC_TRANS,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_TRANS, KC_NO,  KC_NO,  KC_NO,  KC_0,  KC_NO,  KC_NO,  KC_NO
+  ),
 };
 
 extern bool g_suspend_state;
@@ -224,6 +246,12 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY,       CLR_DEDKY,      CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY 
           },
 
+    [4] = { CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_CNTRL, 
+            CLR_OTHER, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_DEDKY, 
+            CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_DEDKY, 
+            CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY,       CLR_DEDKY,      CLR_DEDKY, CLR_ALPHA, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY 
+          },
+
 };
 
 void set_layer_color(int layer) {
@@ -257,6 +285,9 @@ void rgb_matrix_indicators_user(void) {
       break;
     case 3:
       set_layer_color(3);
+      break;
+    case 4:
+      set_layer_color(4);
       break;
    default:
     if (rgb_matrix_get_flags() == LED_FLAG_NONE)
