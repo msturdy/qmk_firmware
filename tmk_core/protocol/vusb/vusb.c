@@ -113,32 +113,22 @@ static void send_mouse(report_mouse_t *report) {
     }
 }
 
-typedef struct {
-    uint8_t  report_id;
-    uint16_t usage;
-} __attribute__((packed)) report_extra_t;
-
-static void send_system(uint16_t data) {
+static void send_extra(uint8_t report_id, uint16_t data) {
+    static uint8_t  last_id   = 0;
     static uint16_t last_data = 0;
-    if (data == last_data) return;
+    if ((report_id == last_id) && (data == last_data)) return;
+    last_id   = report_id;
     last_data = data;
 
-    report_extra_t report = {.report_id = REPORT_ID_SYSTEM, .usage = data};
+    report_extra_t report = {.report_id = report_id, .usage = data};
     if (usbInterruptIsReady3()) {
         usbSetInterrupt3((void *)&report, sizeof(report));
     }
 }
 
-static void send_consumer(uint16_t data) {
-    static uint16_t last_data = 0;
-    if (data == last_data) return;
-    last_data = data;
+static void send_system(uint16_t data) { send_extra(REPORT_ID_SYSTEM, data); }
 
-    report_extra_t report = {.report_id = REPORT_ID_CONSUMER, .usage = data};
-    if (usbInterruptIsReady3()) {
-        usbSetInterrupt3((void *)&report, sizeof(report));
-    }
-}
+static void send_consumer(uint16_t data) { send_extra(REPORT_ID_CONSUMER, data); }
 
 /*------------------------------------------------------------------*
  * Request from host                                                *
@@ -345,6 +335,15 @@ const PROGMEM uchar mouse_hid_report[] = {
     0xc0,                      // END_COLLECTION
 };
 
+#ifndef USB_MAX_POWER_CONSUMPTION
+#    define USB_MAX_POWER_CONSUMPTION 500
+#endif
+
+// TODO: change this to 10ms to match LUFA
+#ifndef USB_POLLING_INTERVAL_MS
+#    define USB_POLLING_INTERVAL_MS 1
+#endif
+
 /*
  * Descriptor for compite device: Keyboard + Mouse
  *
@@ -366,7 +365,7 @@ const PROGMEM char usbDescriptorConfiguration[] = {
 #    else
     (1 << 7), /* attributes */
 #    endif
-    USB_CFG_MAX_BUS_POWER / 2, /* max USB current in 2mA units */
+    USB_MAX_POWER_CONSUMPTION / 2, /* max USB current in 2mA units */
 
     /*
      * Keyboard interface
@@ -393,7 +392,7 @@ const PROGMEM char usbDescriptorConfiguration[] = {
     (char)0x81,                      /* IN endpoint number 1 */
     0x03,                            /* attrib: Interrupt endpoint */
     8, 0,                            /* maximum packet size */
-    USB_CFG_INTR_POLL_INTERVAL,      /* in ms */
+    USB_POLLING_INTERVAL_MS,         /* in ms */
 #    endif
 
     /*
@@ -424,7 +423,7 @@ const PROGMEM char usbDescriptorConfiguration[] = {
     (char)(0x80 | USB_CFG_EP3_NUMBER), /* IN endpoint number 3 */
     0x03,                              /* attrib: Interrupt endpoint */
     8, 0,                              /* maximum packet size */
-    USB_CFG_INTR_POLL_INTERVAL,        /* in ms */
+    USB_POLLING_INTERVAL_MS,           /* in ms */
 #    endif
 };
 #endif

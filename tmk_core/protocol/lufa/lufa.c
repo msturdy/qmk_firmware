@@ -78,7 +78,7 @@ extern keymap_config_t keymap_config;
 #    include "virtser.h"
 #endif
 
-#if (defined(RGB_MIDI) | defined(RGBLIGHT_ANIMATIONS)) & defined(RGBLIGHT_ENABLE)
+#if (defined(RGB_MIDI) || defined(RGBLIGHT_ANIMATIONS)) && defined(RGBLIGHT_ENABLE)
 #    include "rgblight.h"
 #endif
 
@@ -88,6 +88,10 @@ extern keymap_config_t keymap_config;
 
 #ifdef RAW_ENABLE
 #    include "raw_hid.h"
+#endif
+
+#ifdef WEBUSB_ENABLE
+#include "webusb.h"
 #endif
 
 uint8_t keyboard_idle = 0;
@@ -268,6 +272,66 @@ static void Console_Task(void) {
 }
 #endif
 
+#ifdef WEBUSB_ENABLE
+void webusb_send(uint8_t *data, uint8_t length) {
+    if (USB_DeviceState != DEVICE_STATE_Configured) {
+        return;
+    }
+
+    Endpoint_SelectEndpoint(WEBUSB_IN_EPNUM);
+
+    if(Endpoint_Write_Stream_LE(data, length, NULL)) {
+        // Stream failed to complete, resetting WEBUSB's state
+        webusb_state.paired = false;
+        webusb_state.pairing = false;
+    }
+    Endpoint_ClearIN();
+}
+
+static void webusb_task(void) {
+    // Create a temporary buffer to hold the read in data from the host
+    uint8_t data[WEBUSB_EPSIZE];
+    bool    data_read = false;
+
+
+    // Device must be connected and configured for the task to run
+    if (USB_DeviceState != DEVICE_STATE_Configured) return;
+
+    Endpoint_SelectEndpoint(WEBUSB_OUT_EPNUM);
+
+    // Check to see if a packet has been sent from the host
+    if (Endpoint_IsOUTReceived()) {
+        // Check to see if the packet contains data
+        if (Endpoint_IsReadWriteAllowed()) {
+            /* Read data */
+            Endpoint_Read_Stream_LE(data, sizeof(data), NULL);
+            data_read = true;
+        }
+
+        // Finalize the stream transfer to receive the last packet
+        Endpoint_ClearOUT();
+
+        if (data_read) {
+            webusb_receive(data, sizeof(data));
+        }
+    }
+}
+
+/** Microsoft OS 2.0 Descriptor. This is used by Windows to select the USB driver for the device.
+ *
+ *  For WebUSB in Chrome, the correct driver is WinUSB, which is selected via CompatibleID.
+ *
+ *  Additionally, while Chrome is built using libusb, a magic registry key needs to be set containing a GUID for
+ *  the device.
+ */
+const MS_OS_20_Descriptor_t PROGMEM MS_OS_20_Descriptor = MS_OS_20_DESCRIPTOR;
+
+/** URL descriptor string. This is a UTF-8 string containing a URL excluding the prefix. At least one of these must be
+ * 	defined and returned when the Landing Page descriptor index is requested.
+ */
+const WebUSB_URL_Descriptor_t PROGMEM WebUSB_LandingPage = WEBUSB_URL_DESCRIPTOR(WEBUSB_LANDING_PAGE_URL);
+#endif
+
 /*******************************************************************************
  * USB Events
  ******************************************************************************/
@@ -405,6 +469,12 @@ void EVENT_USB_Device_ConfigurationChanged(void) {
 #    endif
 #endif
 
+#ifdef WEBUSB_ENABLE
+  /* Setup Webusb Endpoints */
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(WEBUSB_IN_EPADDR, EP_TYPE_INTERRUPT, WEBUSB_EPSIZE, 1);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(WEBUSB_OUT_EPADDR, EP_TYPE_INTERRUPT, WEBUSB_EPSIZE, 1);
+#endif
+
 #ifdef MIDI_ENABLE
     ConfigSuccess &= Endpoint_ConfigureEndpoint(MIDI_STREAM_IN_EPADDR, EP_TYPE_BULK, MIDI_STREAM_EPSIZE, ENDPOINT_BANK_SINGLE);
     ConfigSuccess &= Endpoint_ConfigureEndpoint(MIDI_STREAM_OUT_EPADDR, EP_TYPE_BULK, MIDI_STREAM_EPSIZE, ENDPOINT_BANK_SINGLE);
@@ -536,6 +606,48 @@ void EVENT_USB_Device_ControlRequest(void) {
             }
 
             break;
+#ifdef WEBUSB_ENABLE
+        case WEBUSB_VENDOR_CODE:
+            if (USB_ControlRequest.bmRequestType == (REQDIR_DEVICETOHOST | REQTYPE_VENDOR | REQREC_DEVICE)) {
+                switch (USB_ControlRequest.wIndex) {
+                  case WebUSB_RTYPE_GetURL:
+                    switch (USB_ControlRequest.wValue) {
+                      case WEBUSB_LANDING_PAGE_INDEX:
+                        Endpoint_ClearSETUP();
+                        /* Write the descriptor data to the control endpoint */
+                        Endpoint_Write_Control_PStream_LE(&WebUSB_LandingPage, WebUSB_LandingPage.Header.Size);
+                        /* Release the endpoint after transaction. */
+                        Endpoint_ClearStatusStage();
+                        break;
+                      default: /* Stall transfer on invalid index. */
+                        Endpoint_StallTransaction();
+                        break;
+                    }
+                    break;
+                  default: /* Stall on unknown WebUSB request */
+                    Endpoint_StallTransaction();
+                    break;
+                }
+            }
+
+            break;
+        case MS_OS_20_VENDOR_CODE:
+            if (USB_ControlRequest.bmRequestType == (REQDIR_DEVICETOHOST | REQTYPE_VENDOR | REQREC_DEVICE)) {
+                switch (USB_ControlRequest.wIndex) {
+                  case MS_OS_20_DESCRIPTOR_INDEX:
+                    Endpoint_ClearSETUP();
+                    /* Write the descriptor data to the control endpoint */
+                    Endpoint_Write_Control_PStream_LE(&MS_OS_20_Descriptor, MS_OS_20_Descriptor.Header.TotalLength);
+                    /* Release the endpoint after transaction. */
+                    Endpoint_ClearStatusStage();
+                    break;
+                  default: /* Stall on unknown MS OS 2.0 request */
+                    Endpoint_StallTransaction();
+                    break;
+                }
+            }
+            break;
+#endif
     }
 
 #ifdef VIRTSER_ENABLE
@@ -662,17 +774,17 @@ static void send_mouse(report_mouse_t *report) {
 #endif
 }
 
-/** \brief Send System
+/** \brief Send Extra
  *
  * FIXME: Needs doc
  */
-static void send_system(uint16_t data) {
 #ifdef EXTRAKEY_ENABLE
+static void send_extra(uint8_t report_id, uint16_t data) {
     uint8_t timeout = 255;
 
     if (USB_DeviceState != DEVICE_STATE_Configured) return;
 
-    report_extra_t r = {.report_id = REPORT_ID_SYSTEM, .usage = data - SYSTEM_POWER_DOWN + 1};
+    report_extra_t r = {.report_id = report_id, .usage = data};
     Endpoint_SelectEndpoint(SHARED_IN_EPNUM);
 
     /* Check if write ready for a polling interval around 10ms */
@@ -681,6 +793,16 @@ static void send_system(uint16_t data) {
 
     Endpoint_Write_Stream_LE(&r, sizeof(report_extra_t), NULL);
     Endpoint_ClearIN();
+}
+#endif
+
+/** \brief Send System
+ *
+ * FIXME: Needs doc
+ */
+static void send_system(uint16_t data) {
+#ifdef EXTRAKEY_ENABLE
+    send_extra(REPORT_ID_SYSTEM, data - SYSTEM_POWER_DOWN + 1);
 #endif
 }
 
@@ -690,8 +812,7 @@ static void send_system(uint16_t data) {
  */
 static void send_consumer(uint16_t data) {
 #ifdef EXTRAKEY_ENABLE
-    uint8_t timeout = 255;
-    uint8_t where   = where_to_send();
+    uint8_t where = where_to_send();
 
 #    ifdef BLUETOOTH_ENABLE
     if (where == OUTPUT_BLUETOOTH || where == OUTPUT_USB_AND_BT) {
@@ -729,15 +850,7 @@ static void send_consumer(uint16_t data) {
         return;
     }
 
-    report_extra_t r = {.report_id = REPORT_ID_CONSUMER, .usage = data};
-    Endpoint_SelectEndpoint(SHARED_IN_EPNUM);
-
-    /* Check if write ready for a polling interval around 10ms */
-    while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(40);
-    if (!Endpoint_IsReadWriteAllowed()) return;
-
-    Endpoint_Write_Stream_LE(&r, sizeof(report_extra_t), NULL);
-    Endpoint_ClearIN();
+    send_extra(REPORT_ID_CONSUMER, data);
 #endif
 }
 
@@ -869,7 +982,7 @@ void virtser_recv(uint8_t c) {
 void virtser_task(void) {
     uint16_t count = CDC_Device_BytesReceived(&cdc_device);
     uint8_t  ch;
-    if (count) {
+    for (; count; --count) {
         ch = CDC_Device_ReceiveByte(&cdc_device);
         virtser_recv(ch);
     }
@@ -914,14 +1027,11 @@ void virtser_send(const uint8_t byte) {
  */
 static void setup_mcu(void) {
     /* Disable watchdog if enabled by bootloader/fuses */
-    MCUSR &= ~(1 << WDRF);
+    MCUSR &= ~_BV(WDRF);
     wdt_disable();
 
     /* Disable clock division */
-    // clock_prescale_set(clock_div_1);
-
-    CLKPR = (1 << CLKPCE);
-    CLKPR = (0 << CLKPS3) | (0 << CLKPS2) | (0 << CLKPS1) | (0 << CLKPS0);
+    clock_prescale_set(clock_div_1);
 }
 
 /** \brief Setup USB
@@ -1001,10 +1111,6 @@ int main(void) {
         MIDI_Device_USBTask(&USB_MIDI_Interface);
 #endif
 
-#if defined(RGBLIGHT_ANIMATIONS) & defined(RGBLIGHT_ENABLE)
-        rgblight_task();
-#endif
-
 #ifdef MODULE_ADAFRUIT_BLE
         adafruit_ble_task();
 #endif
@@ -1016,6 +1122,10 @@ int main(void) {
 
 #ifdef RAW_ENABLE
         raw_hid_task();
+#endif
+
+#ifdef WEBUSB_ENABLE
+        webusb_task();
 #endif
 
 #if !defined(INTERRUPT_CONTROL_ENDPOINT)

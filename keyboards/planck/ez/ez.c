@@ -242,7 +242,7 @@ void eeconfig_init_kb(void) {  // EEPROM is getting reset!
 }
 
 
-uint32_t layer_state_set_kb(uint32_t state) {
+layer_state_t layer_state_set_kb(layer_state_t state) {
     planck_ez_left_led_off();
     planck_ez_right_led_off();
     state = layer_state_set_user(state);
@@ -322,6 +322,41 @@ bool music_mask_kb(uint16_t keycode) {
         return false;
     default:
         return music_mask_user(keycode);
+    }
+}
+#endif
+#ifdef ORYX_ENABLE
+static uint16_t loops = 0;
+static bool is_on = false;
+
+void matrix_scan_kb(void) {
+    if(webusb_state.pairing == true) {
+        if(loops == 0) {
+          //lights off
+        }
+        if(loops % WEBUSB_BLINK_STEPS == 0) {
+            if(is_on) {
+              planck_ez_left_led_on();
+              planck_ez_right_led_off();
+            }
+            else {
+              planck_ez_left_led_off();
+              planck_ez_right_led_on();
+            }
+            is_on ^= 1;
+        }
+        if(loops > WEBUSB_BLINK_END * 2) {
+            webusb_state.pairing = false;
+            loops = 0;
+            planck_ez_left_led_off();
+            planck_ez_right_led_off();
+        }
+        loops++;
+    }
+    else if(loops > 0) {
+      loops = 0;
+      planck_ez_left_led_off();
+      planck_ez_right_led_off();
     }
 }
 #endif
