@@ -59,7 +59,7 @@
 #define BR_O    KC_O    // O
 #define BR_P    KC_P    // P
 #define BR_ACUT KC_LBRC // ´ (dead)
-#define BR_LBRC KC_RBRC // [
+// #define BR_LBRC KC_RBRC // [
 // Row 3
 #define BR_A    KC_A    // A
 #define BR_S    KC_S    // S
@@ -119,16 +119,16 @@
 #define BR_PLUS S(BR_EQL)  // +
 // Row 2
 #define BR_GRV  S(BR_ACUT) // ` (dead)
-#define BR_LCBR S(BR_LBRC) // {
+// #define BR_LCBR S(BR_LBRC) // {
 // Row 3
-#define BR_CIRC S(BR_TILD) // ^ (dead)
-#define BR_RCBR S(BR_RBRC) // }
+// #define BR_CIRC S(BR_TILD) // ^ (dead)
+// #define BR_RCBR S(BR_RBRC) // }
 // Row 4
-#define BR_PIPE S(BR_BSLS) // |
+// #define BR_PIPE S(BR_BSLS) // |
 #define BR_LABK S(BR_COMM) // <
 #define BR_RABK S(BR_DOT)  // >
-#define BR_COLN S(BR_SCLN) // :
-#define BR_QUES S(BR_SLSH) // ?
+// #define BR_COLN S(BR_SCLN) // :
+// #define BR_QUES S(BR_SLSH) // ?
 
 /* AltGr symbols
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┐
@@ -147,34 +147,34 @@
 #define BR_SUP1 ALGR(BR_1)    // ¹
 #define BR_SUP2 ALGR(BR_2)    // ²
 #define BR_SUP3 ALGR(BR_3)    // ³
-#define BR_PND  ALGR(BR_4)    // £
-#define BR_CENT ALGR(BR_5)    // ¢
-#define BR_NOT  ALGR(BR_6)    // ¬
-#define BR_SECT ALGR(BR_EQL)  // §
+// #define BR_PND  ALGR(BR_4)    // £
+// #define BR_CENT ALGR(BR_5)    // ¢
+// #define BR_NOT  ALGR(BR_6)    // ¬
+// #define BR_SECT ALGR(BR_EQL)  // §
 // Row 2
 #define BR_DEG  ALGR(BR_E)    // °
-#define BR_FORD ALGR(BR_LBRC) // ª
+// #define BR_FORD ALGR(BR_LBRC) // ª
 // Row 3
-#define BR_MORD ALGR(BR_RBRC) // º
+// #define BR_MORD ALGR(BR_RBRC) // º
 // Row 4
 #define BR_CRUZ ALGR(BR_C)    // ₢
 
 // DEPRECATED
-#define BR_CCDL BR_CCED
-#define BR_DQT  BR_DQUO
-#define BR_TRMA BR_DIAE
-#define BR_GRAV BR_GRV
-#define BR_KPDT BR_PDOT
-#define BR_KPCM BR_PCMM
-#define BR_1UP  BR_SUP1
-#define BR_2UP  BR_SUP2
-#define BR_3UP  BR_SUP3
-#define BR_ASLS BR_SLSH
-#define BR_AQST BR_QUES
+// #define BR_CCDL BR_CCED
+// #define BR_DQT  BR_DQUO
+// #define BR_TRMA BR_DIAE
+// #define BR_GRAV BR_GRV
+// #define BR_KPDT BR_PDOT
+// #define BR_KPCM BR_PCMM
+// #define BR_1UP  BR_SUP1
+// #define BR_2UP  BR_SUP2
+// #define BR_3UP  BR_SUP3
+// #define BR_ASLS BR_SLSH
+// #define BR_AQST BR_QUES
 
 // Not present on Windows 10?
-#define BR_NDTD ALGR(BR_TILD)   // ~
-#define BR_NDAC ALGR(BR_ACUT)   // ´
-#define BR_NDGV ALGR(BR_QUOT)   // `
-#define BR_NDCR ALGR(BR_CIRC)   // ^
-#define BR_NDTR ALGR(BR_DIAE)   // ¨
+// #define BR_NDTD ALGR(BR_TILD)   // ~
+// #define BR_NDAC ALGR(BR_ACUT)   // ´
+// #define BR_NDGV ALGR(BR_QUOT)   // `
+// #define BR_NDCR ALGR(BR_CIRC)   // ^
+// #define BR_NDTR ALGR(BR_DIAE)   // ¨

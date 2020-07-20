@@ -40,6 +40,7 @@
 #define MY_VOL_DN KC_AUDIO_VOL_DOWN
 #define MY_BGT_UP KC_BRIGHTNESS_UP
 #define MY_BGT_DN KC_BRIGHTNESS_DOWN
+// Question Mark Upside down.
 #define MY_KEY_QMU RALT(BR_SLSH)
 
 enum planck_keycodes {
@@ -182,7 +183,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |  7   |  8   |  9   | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |  4   |  5   |  6   |      |
+ * |      |      |      |      |      |      |      |  -   |  4   |  5   |  6   |      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |  1   |  2   |  3   |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -190,10 +191,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
   [_NUMBERS] = LAYOUT_planck_grid(
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_7,  KC_8,   KC_9,   KC_TRANS,
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_4,  KC_5,   KC_6,   KC_NO,
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,  KC_1,  KC_2,   KC_3,   KC_TRANS,
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_TRANS, KC_NO,  KC_NO,  KC_NO,  KC_0,  KC_NO,  KC_NO,  KC_NO
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,    KC_7,  KC_8,   KC_9,   KC_TRANS,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_MINUS, KC_4,  KC_5,   KC_6,   KC_NO,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,    KC_1,  KC_2,   KC_3,   KC_TRANS,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_TRANS, KC_NO,  KC_NO,  KC_NO,    KC_0,  KC_NO,  KC_NO,  KC_NO
   ),
 };
 
@@ -206,7 +207,7 @@ void keyboard_post_init_user(void) {
 
 
 #define MY_WHT {0, 0, 255}
-#define MY_RED {12, 225, 241}
+#define MY_RED {0, 255, 255}
 #define MY_YLW {32, 255, 234}
 #define MY_BLU {146, 224, 255}
 #define MY_NOC {0, 0, 0}
