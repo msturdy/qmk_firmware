@@ -165,17 +165,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |  DEL |      |VolUp |      |brgtup|      |      |RGBTog| brg+ | brg- |      |RESET |
+ * |  DEL |      |VolUp |      |brgtup|      |      | brg+ |      | hue+ |      |RESET |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |VolDwn|      |brgtdn|      |      | Anim | hue+ | hue- |      |      |
+ * |      |      |VolDwn|      |brgtdn|      |      | brg- |      | hue- |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
   [_ADJUST] = LAYOUT_planck_grid(
     KC_TRANS,   KC_TRANS,  KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,
-    KC_DELETE,  KC_TRANS,  MY_VOL_UP,  KC_TRANS,  MY_BGT_UP, KC_TRANS,  KC_TRANS,  RGB_TOG,   RGB_VAI,   RGB_VAD,   KC_TRANS,  RESET,
-    KC_TRANS,   KC_TRANS,  MY_VOL_DN,  KC_TRANS,  MY_BGT_DN, KC_TRANS,  KC_TRANS,  RGB_MOD,   RGB_HUI,   RGB_HUD,   KC_TRANS,  KC_TRANS,
+    KC_DELETE,  KC_TRANS,  MY_VOL_UP,  KC_TRANS,  MY_BGT_UP, KC_TRANS,  KC_TRANS,  RGB_VAI,   KC_TRANS,  RGB_HUI,   KC_TRANS,  RESET,
+    KC_TRANS,   KC_TRANS,  MY_VOL_DN,  KC_TRANS,  MY_BGT_DN, KC_TRANS,  KC_TRANS,  RGB_VAD,   KC_TRANS,  RGB_HUD,   KC_TRANS,  KC_TRANS,
     KC_TRANS,   KC_TRANS,  KC_TRANS,   KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_NO,     KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS,  KC_TRANS
   ),
 
@@ -185,7 +185,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |  -   |  4   |  5   |  6   |      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |  1   |  2   |  3   |Enter |
+ * |      |      |      |      |      |      |      |  +   |  1   |  2   |  3   |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |Lower |             |      |  0   |      |      |      |
  * `-----------------------------------------------------------------------------------'
@@ -193,7 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_NUMBERS] = LAYOUT_planck_grid(
     KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,    KC_7,  KC_8,   KC_9,   KC_TRANS,
     KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_MINUS, KC_4,  KC_5,   KC_6,   KC_NO,
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_NO,    KC_1,  KC_2,   KC_3,   KC_TRANS,
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO,  KC_NO,  KC_PLUS,  KC_1,  KC_2,   KC_3,   KC_TRANS,
     KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_TRANS, KC_NO,  KC_NO,  KC_NO,    KC_0,  KC_NO,  KC_NO,  KC_NO
   ),
 };
@@ -242,14 +242,14 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
           },
 
     [3] = { CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, 
-            CLR_CNTRL, CLR_DEDKY, CLR_MOUSE, CLR_DEDKY, CLR_CNTRL, CLR_DEDKY, CLR_DEDKY, CLR_OTHER, CLR_OTHER, CLR_OTHER, CLR_DEDKY, CLR_MOUSE, 
-            CLR_DEDKY, CLR_DEDKY, CLR_MOUSE, CLR_DEDKY, CLR_CNTRL, CLR_DEDKY, CLR_DEDKY, CLR_OTHER, CLR_OTHER, CLR_OTHER, CLR_DEDKY, CLR_DEDKY, 
+            CLR_CNTRL, CLR_DEDKY, CLR_MOUSE, CLR_DEDKY, CLR_CNTRL, CLR_DEDKY, CLR_DEDKY, CLR_CNTRL, CLR_DEDKY, CLR_MOUSE, CLR_DEDKY, CLR_MOUSE, 
+            CLR_DEDKY, CLR_DEDKY, CLR_MOUSE, CLR_DEDKY, CLR_CNTRL, CLR_DEDKY, CLR_DEDKY, CLR_CNTRL, CLR_DEDKY, CLR_MOUSE, CLR_DEDKY, CLR_DEDKY, 
             CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY,       CLR_DEDKY,      CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY 
           },
 
     [4] = { CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_CNTRL, 
-            CLR_OTHER, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_DEDKY, 
-            CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_DEDKY, 
+            CLR_OTHER, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_PNCTN, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_DEDKY, 
+            CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_PNCTN, CLR_ALPHA, CLR_ALPHA, CLR_ALPHA, CLR_DEDKY, 
             CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY,       CLR_DEDKY,      CLR_DEDKY, CLR_ALPHA, CLR_DEDKY, CLR_DEDKY, CLR_DEDKY 
           },
 
