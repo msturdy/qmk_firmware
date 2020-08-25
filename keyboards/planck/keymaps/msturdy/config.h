@@ -11,6 +11,7 @@
 // limits maximum brightness of LEDs to 100 out of 255. If not defined maximum brightness is set to 255
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 100 
 
+#define UNICODE_SELECTED_MODES UC_LNX, UC_WINC
 
 #define ENCODER_RESOLUTION 4
 

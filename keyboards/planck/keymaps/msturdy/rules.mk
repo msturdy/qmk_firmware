@@ -9,3 +9,6 @@ MOUSEKEY_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 
 AUDIO_ENABLE = no
+
+# need a € man
+UNICODEMAP_ENABLE = yes
