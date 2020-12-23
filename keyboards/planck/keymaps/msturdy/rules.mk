@@ -10,5 +10,5 @@ TAP_DANCE_ENABLE = yes
 
 AUDIO_ENABLE = no
 
-# need a € man
+# need a € man 
 UNICODEMAP_ENABLE = yes

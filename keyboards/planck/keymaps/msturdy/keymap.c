@@ -225,11 +225,11 @@ void keyboard_post_init_user(void) {
 #define MY_GRN {85, 203, 158}
 
 // alphanumeric keys
-#define CLR_ALPHA MY_RED
+#define CLR_ALPHA MY_WHT
 #define CLR_PNCTN MY_BLU
 #define CLR_CNTRL MY_YLW
 #define CLR_DEDKY MY_NOC
-#define CLR_OTHER MY_WHT
+#define CLR_OTHER MY_RED
 #define CLR_MOUSE MY_GRN
 
 
